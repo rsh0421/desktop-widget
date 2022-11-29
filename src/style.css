@@ -1,0 +1,12 @@
+body,header.fixed,nav,article,section,footer.fixed,p,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,table,th,td,form,fieldset,legend,input,textarea,button,select{margin:0;padding:0;border:0}
+body,input,textarea,select,button,table{cursor:default;font-family:Arial,Helvetica,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;font-size:12px;color:#555}
+img,fieldset{border:0}
+ul,ol{list-style:none}
+em,address{font-style:normal}
+a{text-decoration:none}
+a:hover,a:active,a:focus{text-decoration:none}
+.blind{visibility:hidden;overflow:hidden;position:absolute;top:0;left:0;width:1px;height:1px;font-size:0;line-height:0}
+
+html{display:block;height:100%}
+body{display:block;user-select:none;-webkit-app-region:no-drag;height:100%;background-color:transparent}
+#root{display:block;overflow:hidden;height:100%}
