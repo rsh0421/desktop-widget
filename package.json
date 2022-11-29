@@ -8,7 +8,6 @@
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.2.3",
     "cpu-stat": "^2.0.1",
-    "electron-bottom-most": "^0.3.0",
     "execa": "^6.1.0",
     "os-utils": "^0.0.14",
     "react": "^18.2.0",
