@@ -9615,6 +9615,11 @@ which@^2.0.1:
   dependencies:
     isexe "^2.0.0"
 
+win-setwindowpos@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/win-setwindowpos/-/win-setwindowpos-2.0.0.tgz#982c313540ce0f10363d8dfda6b2faafb01b47ae"
+  integrity sha512-uKbmxpnx0qTMIEs51VhMZ+7sEhZmZ5hzBCz+Za0BkKdEu3xk/nA865PSfqRvc0HPbY60s6jduXgSpq7w7VkceQ==
+
 word-wrap@^1.2.3, word-wrap@~1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/word-wrap/-/word-wrap-1.2.3.tgz#610636f6b1f703891bd34771ccb17fb93b47079c"
