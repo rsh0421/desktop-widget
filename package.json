@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "bindings": "^1.5.0",
     "bootstrap": "^5.2.3",
     "cpu-stat": "^2.0.1",
     "execa": "^6.1.0",
@@ -27,7 +28,8 @@
     "eject": "react-scripts eject",
     "electron:start": "wait-on http://localhost:3000 && cross-env mode=dev electron .",
     "start": "concurrently \"yarn react:start\" \"yarn electron:start\"",
-    "dist": "yarn run react-build && build -w"
+    "dist": "yarn run react-build && build -w",
+    "addon:build": "node-gyp clean && node-gyp configure && node-gyp build"
   },
   "eslintConfig": {
     "extends": [
