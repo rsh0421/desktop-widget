@@ -114,8 +114,8 @@ NAN_METHOD(WmiObject::QueryMethod){
         CIMTYPE type;
 
         while(pclsObj->Next(0, &name, &var, &type, nullptr) == WBEM_S_NO_ERROR){
-          if(name[0] == (wchar_t)'-'){
-            printf("system\n");
+          if(name[0] == (wchar_t)'_'){
+            continue;
           }
           switch(type){
             case CIM_SINT64: Nan::Set(obj, wcharToString(name), (var.bstrVal == nullptr)? Nan::Null() : Nan::New<v8::Number>(_wtoi(var.bstrVal))); break;
