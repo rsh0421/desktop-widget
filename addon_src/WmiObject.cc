@@ -57,6 +57,8 @@ NAN_METHOD(WmiObject::New){
     return Nan::ThrowError(errorMessage.c_str());
   }
 
+  pLoc->Release();
+
   hres = CoSetProxyBlanket(pSvc, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, NULL, RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, NULL, EOAC_NONE);
 
   if(FAILED(hres)){
@@ -114,16 +116,15 @@ NAN_METHOD(WmiObject::QueryMethod){
         CIMTYPE type;
 
         while(pclsObj->Next(0, &name, &var, &type, nullptr) == WBEM_S_NO_ERROR){
-          if(name[0] == (wchar_t)'_'){
-            continue;
-          }
-          switch(type){
-            case CIM_SINT64: Nan::Set(obj, wcharToString(name), (var.bstrVal == nullptr)? Nan::Null() : Nan::New<v8::Number>(_wtoi(var.bstrVal))); break;
-            case CIM_SINT32: Nan::Set(obj, wcharToString(name), (var.bstrVal == nullptr)? Nan::Null() : Nan::New<v8::Number>(var.intVal)); break;
-            case CIM_UINT64: Nan::Set(obj, wcharToString(name), (var.bstrVal == nullptr)? Nan::Null() : Nan::New<v8::Number>(_wtoi(var.bstrVal))); break;
-            case CIM_UINT32: Nan::Set(obj, wcharToString(name), (var.bstrVal == nullptr)? Nan::Null() : Nan::New<v8::Number>(var.uintVal)); break;
-            case CIM_BOOLEAN: Nan::Set(obj, wcharToString(name), (var.bstrVal == nullptr)? Nan::Null() : Nan::New<v8::Boolean>(var.boolVal)); break;
-            case CIM_STRING: Nan::Set(obj, wcharToString(name), (var.bstrVal == nullptr)? Nan::Null() : wcharToString(var.bstrVal)); break;
+          if(name[0] != (wchar_t)'_'){
+            switch(type){
+              case CIM_SINT64: Nan::Set(obj, wcharToString(name), (var.bstrVal == nullptr)? Nan::Null() : Nan::New<v8::Number>(_wtoi(var.bstrVal))); break;
+              case CIM_SINT32: Nan::Set(obj, wcharToString(name), (var.bstrVal == nullptr)? Nan::Null() : Nan::New<v8::Number>(var.intVal)); break;
+              case CIM_UINT64: Nan::Set(obj, wcharToString(name), (var.bstrVal == nullptr)? Nan::Null() : Nan::New<v8::Number>(_wtoi(var.bstrVal))); break;
+              case CIM_UINT32: Nan::Set(obj, wcharToString(name), (var.bstrVal == nullptr)? Nan::Null() : Nan::New<v8::Number>(var.uintVal)); break;
+              case CIM_BOOLEAN: Nan::Set(obj, wcharToString(name), (var.bstrVal == nullptr)? Nan::Null() : Nan::New<v8::Boolean>(var.boolVal)); break;
+              case CIM_STRING: Nan::Set(obj, wcharToString(name), (var.bstrVal == nullptr)? Nan::Null() : wcharToString(var.bstrVal)); break;
+            } 
           }
           SysFreeString(name);
           VariantClear(&var);
@@ -134,7 +135,6 @@ NAN_METHOD(WmiObject::QueryMethod){
       Nan::Set(arr, index++, obj);
 
       pclsObj->Release();
-      pclsObj = NULL;
     }
 
     pEnumerator->Release();
@@ -147,5 +147,4 @@ NAN_METHOD(WmiObject::CloseMethod){
   INIT_OBJECT_FUNCTION(WmiObject)
 
   self->pSvc->Release();
-  self->pLoc->Release();
 }
