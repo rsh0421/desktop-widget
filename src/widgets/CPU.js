@@ -11,9 +11,13 @@ const CPU = ()=>{
   
   useEffect(()=>{
     const interval = setInterval(()=>{
-      const {usage, speed} = api.cpu.result();
-      setUsage(usage);
-      setSpeed(speed);
+      console.log(api);
+      //const {usage, speed} = api.cpu.result();
+      api.run('CPU').then(({info, cores})=>{
+        console.log(info, cores);
+      })
+      //setUsage(usage);
+      //setSpeed(speed);
     }, 1000);
 
     return ()=>{
