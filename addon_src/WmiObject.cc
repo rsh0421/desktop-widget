@@ -81,9 +81,10 @@ napi_status WmiObject::NewInstance(napi_env env, napi_value arg, napi_value* ins
   napi_value args[argc] = {arg};
 
   status = napi_new_instance(env, Constructor(env), argc, args, instance);
-  if (status != napi_ok) return status;
 
-  return napi_ok;
+  printf("test");
+
+  return status;
 }
 
 inline napi_value WmiObject::Constructor(napi_env env){

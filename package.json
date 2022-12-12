@@ -28,7 +28,7 @@
     "electron:start": "wait-on http://localhost:3000 && cross-env mode=dev electron .",
     "start": "concurrently \"yarn react:start\" \"yarn electron:start\"",
     "dist": "yarn run react-build && build -w",
-    "addon:build": "node-gyp clean && node-gyp configure && node-gyp build && electron-rebuild -f -w ./"
+    "addon:build": "node-gyp clean && node-gyp configure && node-gyp build"
   },
   "eslintConfig": {
     "extends": [
@@ -52,11 +52,7 @@
     "concurrently": "^7.6.0",
     "cross-env": "^7.0.3",
     "electron": "22.0.0",
-<<<<<<< HEAD
-    "electron-rebuild": "3.2.7",
-=======
     "electron-rebuild": "3.2.5",
->>>>>>> addon
     "wait-on": "^6.0.1"
   }
 }
