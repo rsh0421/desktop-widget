@@ -17,13 +17,13 @@ void obj_property(napi_env env, napi_value obj, BSTR name, VARIANT var, CIMTYPE 
     case CIM_SINT64:
       (var.bstrVal == nullptr)? napi_get_null(env, &value) : napi_create_int64(env, _wtoi64(var.bstrVal), &value);
       break;
-    case CIM_SINT32:
+    case CIM_SINT32: case CIM_SINT16:
       (var.bstrVal == nullptr)? napi_get_null(env, &value) : napi_create_int32(env, var.intVal, &value);
       break;
     case CIM_UINT64:
       (var.bstrVal == nullptr)? napi_get_null(env, &value) : napi_create_int64(env, _wtoi64(var.bstrVal), &value);
       break;
-    case CIM_UINT32:
+    case CIM_UINT32: case CIM_UINT16:
       (var.bstrVal == nullptr)? napi_get_null(env, &value) : napi_create_uint32(env, var.uintVal, &value);
       break;
     case CIM_BOOLEAN:
