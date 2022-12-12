@@ -11,9 +11,13 @@ const Battery = ()=>{
   
   useEffect(()=>{
     const interval = setInterval(()=>{
-      const {type, capacity} = api.battery.result();
-      setType(type);
-      setCapacity(capacity);
+      // const {type, capacity} = api.battery.result();
+      // setType(type);
+      // setCapacity(capacity);
+
+      api.result('BATTERY').then((result)=>{
+        console.log(result);
+      });
       
     }, 2000);
 
