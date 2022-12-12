@@ -12,10 +12,13 @@ const Memory = ()=>{
   
   useEffect(()=>{
     const interval = setInterval(()=>{
-      const {free, total, percentage} = api.memory.result();
-      setFree(free);
-      setTotal(total);
-      setPercentage(percentage);
+      // const {free, total, percentage} = api.memory.result();
+      // setFree(free);
+      // setTotal(total);
+      // setPercentage(percentage);
+      api.result('MEMORY').then((result)=>{
+        console.log(result);
+      });
     }, 1000);
 
     return ()=>{
