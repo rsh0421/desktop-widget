@@ -13,8 +13,8 @@ const CPU = ()=>{
     const interval = setInterval(()=>{
       console.log(api);
       //const {usage, speed} = api.cpu.result();
-      api.run('CPU').then(({info, cores})=>{
-        console.log(info, cores);
+      api.result('CPU').then((result)=>{
+        console.log(result);
       })
       //setUsage(usage);
       //setSpeed(speed);

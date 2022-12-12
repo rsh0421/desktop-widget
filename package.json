@@ -17,7 +17,7 @@
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4",
-    "win-setwindowpos": "2.0.0"
+    "win-setwindowpos": "^2.1.0"
   },
   "main": "lib/electron-starter.js",
   "homepage": "./",
@@ -29,7 +29,7 @@
     "electron:start": "wait-on http://localhost:3000 && cross-env mode=dev electron .",
     "start": "concurrently \"yarn react:start\" \"yarn electron:start\"",
     "dist": "yarn run react-build && build -w",
-    "addon:build": "node-gyp clean && node-gyp configure && node-gyp build && npm rebuild"
+    "addon:build": "node-gyp clean && node-gyp configure && node-gyp build && electron-rebuild -f -w ./"
   },
   "eslintConfig": {
     "extends": [
@@ -53,6 +53,7 @@
     "concurrently": "^7.6.0",
     "cross-env": "^7.0.3",
     "electron": "^21.3.1",
+    "electron-rebuild": "3.2.7",
     "wait-on": "^6.0.1"
   }
 }
