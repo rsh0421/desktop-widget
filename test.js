@@ -4,6 +4,8 @@ console.log(wmi);
 const CIMV2 = wmi.connect('ROOT\\CIMV2');
 const WMI = wmi.connect('ROOT\\WMI');
 
+console.log(WMI);
+
 
 setInterval(()=>{
   let startTime = Date.now()

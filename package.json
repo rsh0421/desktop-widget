@@ -10,7 +10,6 @@
     "bootstrap": "^5.2.3",
     "cpu-stat": "^2.0.1",
     "execa": "^6.1.0",
-    "nan": "^2.17.0",
     "os-utils": "^0.0.14",
     "react": "^18.2.0",
     "react-bootstrap": "^2.6.0",
@@ -29,7 +28,7 @@
     "electron:start": "wait-on http://localhost:3000 && cross-env mode=dev electron .",
     "start": "concurrently \"yarn react:start\" \"yarn electron:start\"",
     "dist": "yarn run react-build && build -w",
-    "addon:build": "node-gyp clean && node-gyp configure && node-gyp build && electron-rebuild -f -w ./"
+    "addon:build": "node-gyp clean && node-gyp configure && node-gyp build"
   },
   "eslintConfig": {
     "extends": [
