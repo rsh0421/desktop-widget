@@ -30,7 +30,7 @@ const CPU = ()=>{
       api.result('CPU').then((result)=>{
         const {info, cores, total} = result;
         setName(info.name);
-        setMax(info.max);
+        setMax(info.maxSpeed);
         setUsage(total.usage);
         setSpeed(total.speed);
         setCores(cores);
