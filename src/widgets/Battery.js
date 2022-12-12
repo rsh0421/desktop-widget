@@ -6,8 +6,8 @@ const {api} = window;
 
 
 const Battery = ()=>{
-  const [type, setType] = useState(0);
-  const [capacity, setCapacity] = useState(0);
+  const [status, setStatus] = useState(0);
+  const [charge, setCharge] = useState(0);
   
   useEffect(()=>{
     const interval = setInterval(()=>{
@@ -16,7 +16,9 @@ const Battery = ()=>{
       // setCapacity(capacity);
 
       api.result('BATTERY').then((result)=>{
-        console.log(result);
+        const {info} = result;
+        setStatus(info.status);
+        setCharge(info.charge);
       });
       
     }, 2000);
@@ -28,8 +30,9 @@ const Battery = ()=>{
 
   return (
     <Widget title="Battery">
-      <div>Capacity: {capacity}%</div>
-      <div><ProgressBar now={capacity}/></div>
+      <div>Status: {status}</div>
+      <div>Capacity: {charge}%</div>
+      <div><ProgressBar now={charge}/></div>
     </Widget>
   );
 };

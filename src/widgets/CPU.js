@@ -1,7 +1,6 @@
 import {useState, useEffect} from 'react';
 import {ProgressBar} from 'react-bootstrap';
 import Widget from '../components/Widget';
-import ArcProgress from '../components/ArcProgress';
 import './CPU.css'
 
 const {api} = window;
