@@ -1,38 +1,125 @@
 #include "WmiObject.h"
 
-v8::Local<v8::String> wcharToString(BSTR str){
-  int strSize = WideCharToMultiByte(CP_ACP, 0,str,-1, NULL, 0,NULL, NULL);
-  char* pStr = new char[strSize];
+void wcharToString(BSTR str, char pStr[]){
+  int strSize = WideCharToMultiByte(CP_ACP, 0, str, -1, NULL, 0,NULL, NULL);
+
   WideCharToMultiByte(CP_ACP, 0, str, -1, pStr, strSize, 0,0);
-
-  v8::Local<v8::String> rst = Nan::New<v8::String>(pStr).ToLocalChecked();
-  delete pStr;
-
-  return rst;
 }
 
-NAN_MODULE_INIT(WmiObject::Init){
-  v8::Local<v8::FunctionTemplate> tpl = Nan::New<v8::FunctionTemplate>(New);
-  tpl->InstanceTemplate()->SetInternalFieldCount(1);
+void obj_property(napi_env env, napi_value obj, BSTR name, VARIANT var, CIMTYPE type){
+  napi_value value;
 
-  Nan::SetPrototypeMethod(tpl, "query", QueryMethod);
-  Nan::SetPrototypeMethod(tpl, "close", CloseMethod);
+  char nameStr[100];
 
-  constructor().Reset(Nan::GetFunction(tpl).ToLocalChecked());
-}
+  wcharToString(name, nameStr);
 
-v8::Local<v8::Object> WmiObject::NewInstance(int argc, v8::Local<v8::Value> argv[]){
-  v8::Local<v8::Function> cons = Nan::New(constructor());
-
-  return Nan::NewInstance(cons, argc, argv).ToLocalChecked();
-}
-
-NAN_METHOD(WmiObject::New){
-  if(!info.IsConstructCall()){
-    Nan::ThrowTypeError("Cannot instantiate without new");
+  switch(type){
+    case CIM_SINT64:
+      (var.bstrVal == nullptr)? napi_get_null(env, &value) : napi_create_int64(env, _wtoi(var.bstrVal), &value);
+      break;
+    case CIM_SINT32:
+      (var.bstrVal == nullptr)? napi_get_null(env, &value) : napi_create_int32(env, var.intVal, &value);
+      break;
+    case CIM_UINT64:
+      (var.bstrVal == nullptr)? napi_get_null(env, &value) : napi_create_int64(env, _wtoi(var.bstrVal), &value);
+      break;
+    case CIM_UINT32:
+      (var.bstrVal == nullptr)? napi_get_null(env, &value) : napi_create_uint32(env, var.uintVal, &value);
+      break;
+    case CIM_BOOLEAN:
+      (var.bstrVal == nullptr)? napi_get_null(env, &value) : napi_get_boolean(env, var.boolVal, &value);
+      break;
+    case CIM_STRING:{
+      char valueStr[100];
+      wcharToString(var.bstrVal, valueStr);
+      (var.bstrVal == nullptr)? napi_get_null(env, &value) : napi_create_string_utf8(env, valueStr, strlen(valueStr), &value);
+      break;
+    }
   }
 
-  REQ_STRING(0, ns)
+  napi_status status = napi_set_named_property(env, obj, nameStr, value);
+  assert(status == napi_ok);
+}
+
+napi_status WmiObject::Init(napi_env env){
+  napi_status status;
+  napi_property_descriptor properties[] = {
+    DECLARE_NAPI_METHOD("query", QueryMethod),
+    DECLARE_NAPI_METHOD("close", CloseMethod)
+  };
+
+  napi_value cons;
+  status = napi_define_class(env, "WmiObject", NAPI_AUTO_LENGTH, New, nullptr, 2, properties, &cons);
+  assert(status == napi_ok);
+
+  napi_ref* constructor = new napi_ref;
+  status = napi_create_reference(env, cons, 1, constructor);
+  assert(status == napi_ok);
+
+  status = napi_set_instance_data(
+    env,
+    constructor,
+    [](napi_env env, void* data, void* hint) {
+      napi_ref* constructor = static_cast<napi_ref*>(data);
+      napi_status status = napi_delete_reference(env, *constructor);
+      assert(status == napi_ok);
+      delete constructor;
+    },
+    nullptr);
+  assert(status == napi_ok);
+
+  return napi_ok;
+}
+
+void WmiObject::Destructor(napi_env env, void* nativeObject, void* finalize_hint){
+
+}
+napi_status WmiObject::NewInstance(napi_env env, napi_value arg, napi_value* instance){
+  napi_status status;
+
+  const int argc = 1;
+  napi_value args[argc] = {arg};
+
+  status = napi_new_instance(env, Constructor(env), argc, args, instance);
+  if (status != napi_ok) return status;
+
+  return napi_ok;
+}
+
+inline napi_value WmiObject::Constructor(napi_env env){
+  void* instance_data = nullptr;
+  napi_status status = napi_get_instance_data(env, &instance_data);
+  assert(status == napi_ok);
+  napi_ref* constructor = static_cast<napi_ref*>(instance_data);
+
+  napi_value cons;
+  status = napi_get_reference_value(env, *constructor, &cons);
+  assert(status == napi_ok);
+  return cons;
+}
+
+napi_value WmiObject::New(napi_env env, napi_callback_info info){
+  napi_status status;
+
+  size_t argc = 1;
+  napi_value args[1];
+  napi_value jsThis;
+
+  status = napi_get_cb_info(env, info, &argc, args, &jsThis, nullptr);
+  assert(status == napi_ok);
+
+  napi_valuetype argtype0;
+  status = napi_typeof(env, args[0], &argtype0);
+
+  if (argtype0 != napi_string) {
+    napi_throw_type_error(env, NULL, "Wrong arguments");
+    return NULL;
+  }
+
+  char ns[32];
+  size_t length;
+  
+  status = napi_get_value_string_utf8(env, args[0], ns, 32, &length);
 
   HRESULT hres;
   IWbemLocator *pLoc = 0;
@@ -44,18 +131,20 @@ NAN_METHOD(WmiObject::New){
     std::string errorMessage = "Failed to create IWbemLocator object. Error code = ";
     errorMessage += std::to_string(hres);
     CoUninitialize();
-    return Nan::ThrowError(errorMessage.c_str());
+    napi_throw_error(env, NULL, errorMessage.c_str());
   }
 
-  hres = pLoc->ConnectServer(_bstr_t(*(Nan::Utf8String(ns))), NULL, NULL, 0, NULL, 0, 0, &pSvc);
+  hres = pLoc->ConnectServer(_bstr_t(ns), NULL, NULL, 0, NULL, 0, 0, &pSvc);
 
   if(FAILED(hres)){
     std::string errorMessage = "Could not connect. Error code = ";
     errorMessage += std::to_string(hres);
     pLoc->Release();     
     CoUninitialize();
-    return Nan::ThrowError(errorMessage.c_str());
+    napi_throw_error(env, NULL, errorMessage.c_str());
   }
+
+  pLoc->Release();
 
   hres = CoSetProxyBlanket(pSvc, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, NULL, RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, NULL, EOAC_NONE);
 
@@ -65,34 +154,68 @@ NAN_METHOD(WmiObject::New){
     pSvc->Release();
     pLoc->Release();     
     CoUninitialize();
-    return Nan::ThrowError(errorMessage.c_str());
+    napi_throw_error(env, NULL, errorMessage.c_str());
   }
 
-  printf("%s connect.\n", *(Nan::Utf8String(ns)));
+  printf("%s connect.\n", ns);
 
-  WmiObject *obj = new WmiObject(pLoc, pSvc);
-  obj->Wrap(info.This());
 
-  info.GetReturnValue().Set(info.This());
+  WmiObject* obj = new WmiObject(env, pSvc);
+
+  status = napi_wrap(env,
+                     jsThis,
+                     reinterpret_cast<void*>(obj),
+                     WmiObject::Destructor,
+                     nullptr, /* finalize_hint */
+                     &obj->_wrapper_);
+
+  assert(status == napi_ok);
+
+  return jsThis;
 }
 
-NAN_METHOD(WmiObject::QueryMethod){
-  INIT_OBJECT_FUNCTION(WmiObject)
-  REQ_STRING(0, query) 
+napi_value WmiObject::QueryMethod(napi_env env, napi_callback_info info){
+  napi_status status;
 
-  v8::Local<v8::Array> arr = Nan::New<v8::Array>();
+  size_t argc = 1;
+  napi_value args[1];
+  napi_value jsThis;
+
+  status = napi_get_cb_info(env, info, &argc, args, &jsThis, nullptr);
+  assert(status == napi_ok);
+
+  napi_valuetype argtype0;
+  status = napi_typeof(env, args[0], &argtype0);
+
+  if (argtype0 != napi_string) {
+    napi_throw_type_error(env, NULL, "Wrong arguments");
+    return NULL;
+  }
+
+  char query[256];
+  size_t length;
   
+  status = napi_get_value_string_utf8(env, args[0], query, 256, &length);
+
+  WmiObject* self;
+  status = napi_unwrap(env, jsThis, reinterpret_cast<void**>(&self));
+  assert(status == napi_ok);
+
+  napi_value arr;
+  status = napi_create_array(env, &arr);
+  assert(status == napi_ok);
+
   HRESULT hres;
   IWbemServices *pSvc = self->pSvc;
   IEnumWbemClassObject* pEnumerator = NULL;
 
-  hres = self->pSvc->ExecQuery(bstr_t("WQL"), bstr_t(*(Nan::Utf8String(query))), WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY, NULL, &pEnumerator);
+  hres = self->pSvc->ExecQuery(bstr_t("WQL"), bstr_t(query), WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY, NULL, &pEnumerator);
 
   if(FAILED(hres)){
     std::string errorMessage = "Query for operating system name failed. Error code = ";
     errorMessage += std::to_string(hres);
 
-    return Nan::ThrowError(errorMessage.c_str());
+    napi_throw_error(env, NULL, errorMessage.c_str());
   }else{
 
     IWbemClassObject *pclsObj;
@@ -106,7 +229,9 @@ NAN_METHOD(WmiObject::QueryMethod){
         break;
       }
 
-      v8::Local<v8::Object> obj = Nan::New<v8::Object>();
+      napi_value obj;
+      status = napi_create_object(env, &obj);
+      assert(status == napi_ok);
 
       if(pclsObj->BeginEnumeration(0) == S_OK){
         BSTR name = nullptr;
@@ -114,38 +239,44 @@ NAN_METHOD(WmiObject::QueryMethod){
         CIMTYPE type;
 
         while(pclsObj->Next(0, &name, &var, &type, nullptr) == WBEM_S_NO_ERROR){
-          if(name[0] == (wchar_t)'-'){
-            printf("system\n");
+          if(name[0] != (wchar_t)'_'){
+            obj_property(env, obj, name, var, type);
           }
-          switch(type){
-            case CIM_SINT64: Nan::Set(obj, wcharToString(name), (var.bstrVal == nullptr)? Nan::Null() : Nan::New<v8::Number>(_wtoi(var.bstrVal))); break;
-            case CIM_SINT32: Nan::Set(obj, wcharToString(name), (var.bstrVal == nullptr)? Nan::Null() : Nan::New<v8::Number>(var.intVal)); break;
-            case CIM_UINT64: Nan::Set(obj, wcharToString(name), (var.bstrVal == nullptr)? Nan::Null() : Nan::New<v8::Number>(_wtoi(var.bstrVal))); break;
-            case CIM_UINT32: Nan::Set(obj, wcharToString(name), (var.bstrVal == nullptr)? Nan::Null() : Nan::New<v8::Number>(var.uintVal)); break;
-            case CIM_BOOLEAN: Nan::Set(obj, wcharToString(name), (var.bstrVal == nullptr)? Nan::Null() : Nan::New<v8::Boolean>(var.boolVal)); break;
-            case CIM_STRING: Nan::Set(obj, wcharToString(name), (var.bstrVal == nullptr)? Nan::Null() : wcharToString(var.bstrVal)); break;
-          }
+            
           SysFreeString(name);
           VariantClear(&var);
         }
 
       }
 
-      Nan::Set(arr, index++, obj);
+      napi_set_element(env, arr, index++, obj);
 
       pclsObj->Release();
-      pclsObj = NULL;
     }
 
     pEnumerator->Release();
   }
 
-  info.GetReturnValue().Set(arr);
+  return arr;
 }
 
-NAN_METHOD(WmiObject::CloseMethod){
-  INIT_OBJECT_FUNCTION(WmiObject)
+napi_value WmiObject::CloseMethod(napi_env env, napi_callback_info info){
+  napi_status status;
+
+  napi_value jsThis;
+
+  status = napi_get_cb_info(env, info, nullptr, nullptr, &jsThis, nullptr);
+  assert(status == napi_ok);
+
+  WmiObject* self;
+  status = napi_unwrap(env, jsThis, reinterpret_cast<void**>(&self));
+  assert(status == napi_ok);
 
   self->pSvc->Release();
-  self->pLoc->Release();
+
+  napi_value value;
+
+  napi_get_null(env, &value);
+
+  return value;
 }

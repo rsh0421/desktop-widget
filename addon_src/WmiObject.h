@@ -5,27 +5,27 @@
 
 #include "wmi.h"
 
-class WmiObject : public Nan::ObjectWrap{
+class WmiObject {
   public:
-    static NAN_MODULE_INIT(Init);
-    static v8::Local<v8::Object> NewInstance(int argc, v8::Local<v8::Value> argv[]);
+    static napi_status Init(napi_env env);
+    static void Destructor(napi_env env, void* nativeObject, void* finalize_hint);
+    static napi_status NewInstance(napi_env env, napi_value arg, napi_value* instance);
   private:
-    WmiObject(IWbemLocator *pLoc, IWbemServices *pSvc): pLoc(pLoc), pSvc(pSvc){}
-    ~WmiObject(){}
+    WmiObject(napi_env env, IWbemServices *pSvc): _env_(env), _wrapper_(nullptr), pSvc(pSvc){}
+    ~WmiObject(){ napi_delete_reference(_env_, _wrapper_); }
 
-    static NAN_METHOD(New);
-    static NAN_METHOD(QueryMethod);
-    static NAN_METHOD(CloseMethod);
+    static inline napi_value Constructor(napi_env env);
+    static napi_value New(napi_env env, napi_callback_info info);
+    static napi_value QueryMethod(napi_env env, napi_callback_info info);
+    static napi_value CloseMethod(napi_env env, napi_callback_info info);
 
-    static inline Nan::Persistent<v8::Function> & constructor(){
-      static Nan::Persistent<v8::Function> wmiConstructor;
-
-      return wmiConstructor;
-    }
-
-    IWbemLocator *pLoc;
     IWbemServices *pSvc;
+    napi_env _env_;
+    napi_ref _wrapper_;
 };
+
+#define DECLARE_NAPI_METHOD(name, func)                                        \
+  { name, 0, func, 0, 0, 0, napi_default, 0 }
 
 
 #endif //WMI_OBJECT_HEADER_FILE

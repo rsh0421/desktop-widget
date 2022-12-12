@@ -10,7 +10,6 @@
     "bootstrap": "^5.2.3",
     "cpu-stat": "^2.0.1",
     "execa": "^6.1.0",
-    "nan": "^2.17.0",
     "os-utils": "^0.0.14",
     "react": "^18.2.0",
     "react-bootstrap": "^2.6.0",
@@ -53,7 +52,11 @@
     "concurrently": "^7.6.0",
     "cross-env": "^7.0.3",
     "electron": "22.0.0",
+<<<<<<< HEAD
     "electron-rebuild": "3.2.7",
+=======
+    "electron-rebuild": "3.2.5",
+>>>>>>> addon
     "wait-on": "^6.0.1"
   }
 }
