@@ -4211,15 +4211,6 @@ ejs@^3.1.6:
   dependencies:
     jake "^10.8.5"
 
-<<<<<<< HEAD
-electron-rebuild@3.2.7:
-  version "3.2.7"
-  resolved "https://registry.yarnpkg.com/electron-rebuild/-/electron-rebuild-3.2.7.tgz#0f56c1cc99a6fec0a5b990532283c2a8c838c19b"
-  integrity sha512-WvaW1EgRinDQ61khHFZfx30rkPQG5ItaOT0wrI7iJv9A3SbghriQGfZQfHZs25fWLBe6/vkv05LOqg6aDw6Wzw==
-  dependencies:
-    "@malept/cross-spawn-promise" "^2.0.0"
-    chalk "^4.0.0"
-=======
 electron-rebuild@3.2.5:
   version "3.2.5"
   resolved "https://registry.yarnpkg.com/electron-rebuild/-/electron-rebuild-3.2.5.tgz#a9e82b4259aac33ad449f6959de68ded2c5679f8"
@@ -4227,16 +4218,11 @@ electron-rebuild@3.2.5:
   dependencies:
     "@malept/cross-spawn-promise" "^2.0.0"
     colors "^1.3.3"
->>>>>>> addon
     debug "^4.1.1"
     detect-libc "^1.0.3"
     fs-extra "^10.0.0"
     got "^11.7.0"
-<<<<<<< HEAD
-    lzma-native "^8.0.5"
-=======
     lzma-native "^8.0.1"
->>>>>>> addon
     node-abi "^3.0.0"
     node-api-version "^0.1.4"
     node-gyp "^8.4.0"
@@ -6826,11 +6812,7 @@ lz-string@^1.4.4:
   resolved "https://registry.yarnpkg.com/lz-string/-/lz-string-1.4.4.tgz#c0d8eaf36059f705796e1e344811cf4c498d3a26"
   integrity sha512-0ckx7ZHRPqb0oUm8zNr+90mtf9DQB60H1wMCjBtfi62Kl3a7JbHob6gA2bC+xRvZoOL+1hzUK8jeuEIQE8svEQ==
 
-<<<<<<< HEAD
-lzma-native@^8.0.5:
-=======
 lzma-native@^8.0.1:
->>>>>>> addon
   version "8.0.6"
   resolved "https://registry.yarnpkg.com/lzma-native/-/lzma-native-8.0.6.tgz#3ea456209d643bafd9b5d911781bdf0b396b2665"
   integrity sha512-09xfg67mkL2Lz20PrrDeNYZxzeW7ADtpYFbwSQh9U8+76RIzx5QsJBMy8qikv3hbUPfpy6hqwxt6FcGK81g9AA==
@@ -8396,6 +8378,11 @@ react-bootstrap@^2.6.0:
     react-transition-group "^4.4.2"
     uncontrollable "^7.2.1"
     warning "^4.0.3"
+
+react-circular-progressbar@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-circular-progressbar/-/react-circular-progressbar-2.1.0.tgz#99e5ae499c21de82223b498289e96f66adb8fa3a"
+  integrity sha512-xp4THTrod4aLpGy68FX/k1Q3nzrfHUjUe5v6FsdwXBl3YVMwgeXYQKDrku7n/D6qsJA9CuunarAboC2xCiKs1g==
 
 react-dev-utils@^12.0.1:
   version "12.0.1"
@@ -10158,17 +10145,10 @@ wide-align@^1.1.5:
   dependencies:
     string-width "^1.0.2 || 2 || 3 || 4"
 
-<<<<<<< HEAD
 win-setwindowpos@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/win-setwindowpos/-/win-setwindowpos-2.1.0.tgz#b8efebc9f96294b9b1ad999610eecdcf4ba060c6"
   integrity sha512-OYmeQdBvQzcmYtrIlvW0iYh6CDZMxOBD38RGbgxJ/ujUqd+8jmmjPJomALWiwonkGSyeEX4IOAuS+8YJ+B6Hug==
-=======
-win-setwindowpos@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/win-setwindowpos/-/win-setwindowpos-2.0.0.tgz#982c313540ce0f10363d8dfda6b2faafb01b47ae"
-  integrity sha512-uKbmxpnx0qTMIEs51VhMZ+7sEhZmZ5hzBCz+Za0BkKdEu3xk/nA865PSfqRvc0HPbY60s6jduXgSpq7w7VkceQ==
->>>>>>> addon
 
 word-wrap@^1.2.3, word-wrap@~1.2.3:
   version "1.2.3"

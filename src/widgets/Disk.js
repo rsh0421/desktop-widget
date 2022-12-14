@@ -10,7 +10,7 @@ const Partition = (props)=>{
   return (
     <div className="disk-partitions-item">
       <div>{props.name}({props.system})</div>
-      <div>{Math.round((props.total - props.free) * 10 / Math.pow(1024,3))/10}/{Math.round(props.total * 10 / Math.pow(1024,3))/10}GB ({Math.round(props.free/props.total*100)}%)</div>
+      <div>{Math.round((props.total - props.free) * 10 / Math.pow(1024,3))/10}/{Math.round(props.total * 10 / Math.pow(1024,3))/10}GB ({Math.round((props.total-props.free)/props.total*100)}%)</div>
       <div><ProgressBar now={(props.total - props.free) /props.total*100}/></div>
     </div>
   )
