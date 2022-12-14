@@ -1,6 +1,5 @@
 import {useState, useEffect} from 'react';
 import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
-import {ProgressBar} from 'react-bootstrap';
 import Widget from '../components/Widget';
 import 'react-circular-progressbar/dist/styles.css';
 import './CPU.css'
