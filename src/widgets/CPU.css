@@ -1,11 +1,11 @@
 
-.cpu-total .cpu-total-name{}
+.cpu-total .cpu-total-name{padding:5px;border-radius:5px;background-color:#00000055}
 .cpu-total .cpu-total-spec{width:200px;height:200px;margin:20px auto}
 .cpu-total .cpu-total-spec .cpu-total-speed{font-size:24px}
 .cpu-total .cpu-total-spec .cpu-total-usage{font-size:18px}
 .cpu-cores{overflow:hidden}
-.cpu-cores-item{float:left;width:25%;padding:10px;box-sizing:border-box;}
+.cpu-cores-item{float:left;width:23%;margin:1%;padding:2px;border:1px solid #ffffff44;border-radius:5px;box-sizing:border-box;}
 
-.cpu-cores-item .cpu-cores-item-name{margin-bottom:5px;text-align:center;font-size:10px}
-.cpu-cores-item .cpu-cores-item-spec .cpu-cores-item-speed{font-size:8px}
-.cpu-cores-item .cpu-cores-item-spec .cpu-cores-item-usage{font-size:8px}
+.cpu-cores-item .cpu-cores-item-name{margin-bottom:5px;padding:2px;border-radius:5px;text-align:center;font-size:9px;background-color:#00000055}
+.cpu-cores-item .cpu-cores-item-spec .cpu-cores-item-speed{font-size:9px}
+.cpu-cores-item .cpu-cores-item-spec .cpu-cores-item-usage{font-size:9px}

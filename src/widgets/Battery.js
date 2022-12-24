@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react';
-import {ProgressBar} from 'react-bootstrap';
 import Widget from '../components/Widget';
+import {getColor} from '../lib';
+import './Battery.css';
 
 const {api} = window;
 
@@ -30,11 +31,27 @@ const Battery = ()=>{
 
   return (
     <Widget title="Battery">
-      <div>Status: {status}</div>
-      <div>Capacity: {charge}%</div>
-      <div><ProgressBar now={charge}/></div>
+      <div><BatteryProgress status={status} value={charge} max={100} color={getColor((100-charge)/100)}/></div>
     </Widget>
   );
 };
+
+const BatteryProgress = (props)=>{
+  let max = props.max || 1;
+  let width = `${(props.value/max) * 100}%`;
+
+  const gageClassName = ['battery-progress-gage'];
+
+  if(props.status === 2){
+    gageClassName.push('charge');
+  }
+
+  return (
+    <div className="battery-progress">
+      <div className={gageClassName.join(' ')} style={{width, backgroundColor:props.color}}></div>
+      <div className="battery-progress-gage-text">{width}</div>
+    </div>
+  );
+}
 
 export default Battery;

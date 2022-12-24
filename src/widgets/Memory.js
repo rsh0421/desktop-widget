@@ -1,12 +1,14 @@
-import {useState, useEffect} from 'react';
-import {ProgressBar} from 'react-bootstrap';
+import { useState, useEffect } from 'react';
 import Widget from '../components/Widget';
+import ProgressBar from '../components/ProgressBar'
+import { getColor } from '../lib';
+import './Memory.css';
 
 const {api} = window;
 
-
 const Memory = ()=>{
-  const [free, setFree] = useState(0);
+  const [usage, setUsage] = useState(0);
+  const [count, setCount] = useState(0);
   const [total, setTotal] = useState(0);
   const [speed, setSpeed] =  useState(0);
   
@@ -18,10 +20,10 @@ const Memory = ()=>{
       // setPercentage(percentage);
       api.result('MEMORY').then((result)=>{
         const {info} = result;
-        setSpeed(info.speed);
-        setFree(Math.round(info.free * 10 / Math.pow(1024,3))/10);
+        setSpeed(Math.round(info.speed/100)/10);
+        setCount(info.count);
+        setUsage(Math.round((info.total-info.free) * 10 / Math.pow(1024,3))/10);
         setTotal(Math.round(info.total * 10 / Math.pow(1024,3))/10);
-        console.log(result);
       });
     }, 1000);
 
@@ -30,11 +32,15 @@ const Memory = ()=>{
     }
   })
 
+  let ratio = usage/total;
+
   return (
     <Widget title="Memory">
-      <div>Speed: {speed} MHz</div>
-      <div>{free}/{total}GB ({Math.round(free/total*100)}%)</div>
-      <div><ProgressBar now={free/total*100}/></div>
+      <div>Speed: {speed} GHz / Count: {count}</div>
+      <div className="memory-spec">
+        <div>{usage} / {total} GB ({Math.round(ratio*100)} %)</div>
+        <div><ProgressBar value={ratio} color={getColor(ratio)}/></div>
+      </div>
     </Widget>
   );
 };

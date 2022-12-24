@@ -1,4 +1,4 @@
-.widget{margin-bottom:10px;padding:10px;border-radius:10px;background-color:#000000bb}
+.widget{margin-bottom:10px;padding:10px;border-radius:10px;background-color:#00000099}
 .widget .widget-title{margin-bottom:10px;font-size:18px;color:#fff}
 .widget .widget-content{position:relative;line-height:1.5;font-size:13px;color:#ddd}
-.widget .widget-content .progress{height:0.1rem}
+.widget .widget-content .progress{height:0.2rem}

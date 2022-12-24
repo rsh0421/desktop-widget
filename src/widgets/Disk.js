@@ -1,17 +1,19 @@
 import {useState, useEffect} from 'react';
-import {ProgressBar} from 'react-bootstrap';
 import Widget from '../components/Widget';
-import './Disk.css'
+import ProgressBar from '../components/ProgressBar';
+import { getColor } from '../lib';
+import './Disk.css';
 
 const {api} = window;
 
 
 const Partition = (props)=>{
+  let ratio = (props.total - props.free) /props.total;
   return (
     <div className="disk-partitions-item">
-      <div>{props.name}({props.system})</div>
-      <div>{Math.round((props.total - props.free) * 10 / Math.pow(1024,3))/10}/{Math.round(props.total * 10 / Math.pow(1024,3))/10}GB ({Math.round((props.total-props.free)/props.total*100)}%)</div>
-      <div><ProgressBar now={(props.total - props.free) /props.total*100}/></div>
+      <div className="disk-partitions-item-name">{props.name}({props.system})</div>
+      <div>{Math.round((props.total - props.free) * 10 / Math.pow(1024,3))/10} / {Math.round(props.total * 10 / Math.pow(1024,3))/10} GB ({Math.round(ratio*100)} %)</div>
+      <div><ProgressBar value={ratio} color={getColor(ratio)}/></div>
     </div>
   )
 }
