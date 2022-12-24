@@ -42,7 +42,7 @@ const BatteryProgress = (props)=>{
 
   const gageClassName = ['battery-progress-gage'];
 
-  if(props.status === 2){
+  if(props.status === 'charging'){
     gageClassName.push('charge');
   }
 
