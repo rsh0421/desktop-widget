@@ -11,11 +11,11 @@ const App = ()=>{
       <div className="app-grid-left">
         <CPU/>
         <Memory/>
+        <Disk/>
+        <Battery/>
       </div>
       <div className="app-grid-center"></div>
       <div className="app-grid-right">
-        <Disk/>
-        <Battery/>
       </div>
     </div>
   );
