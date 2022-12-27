@@ -2,3 +2,4 @@
 .app .app-grid-left,
 .app .app-grid-center,
 .app .app-grid-right{padding:10px}
+.app .app-grid-center{display:grid;grid-template-rows:180px 1fr}

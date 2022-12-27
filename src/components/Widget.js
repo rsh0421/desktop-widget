@@ -1,6 +1,9 @@
-import './Widget.css'
+import {useEffect} from 'react';
+import './Widget.css';
 
 const Widget = (props)=>{
+
+  useEffect(()=>{}, []);
 
   return (
     <div className="widget" onClick={()=>console.log('test')}>

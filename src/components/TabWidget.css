@@ -1,0 +1,8 @@
+.tab-widget{display:grid;position:relative;grid-template-rows:40px 1fr;border-radius:10px;background-color:#00000099}
+.tab-widget .tab-widget-head-list{font-size:18px;color:#fff}
+.tab-widget .tab-widget-head-list a.tab-widget-head{display:inline-block;padding:10px 20px;border-radius:10px;color:#aaa}
+.tab-widget .tab-widget-head-list a.tab-widget-head.on{font-weight:bold;color:#fff}
+.tab-widget .tab-widget-head-list a.tab-widget-head.off:hover{background-color:#ffffff33;transition:background-color 0.3s ease}
+.tab-widget .tab-widget-content-list{position:relative;padding:10px;line-height:1.5;font-size:13px;color:#ddd}
+.tab-widget .tab-widget-content-list .tab-widget-content{display:none}
+.tab-widget .tab-widget-content-list .tab-widget-content.on{display:block}

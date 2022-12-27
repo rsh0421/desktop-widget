@@ -34,24 +34,20 @@ const CPU = ()=>{
 
   useEffect(()=>{
     const interval = setInterval(()=>{
-      //const {usage, speed} = api.cpu.result();
       api.result('CPU').then((result)=>{
         const {info, cores, total} = result;
-        console.log(info);
         setName(info.name);
         setMax(info.maxSpeed);
         setUsage(total.usage);
         setSpeed(total.speed);
         setCores(cores);
       })
-      //setUsage(usage);
-      //setSpeed(speed);
-    }, 1000);
+    },1000);
 
     return ()=>{
       clearInterval(interval);  
     }
-  });
+  }, [name, max, usage, speed, cores]);
 
   return (
     <Widget title="CPU">

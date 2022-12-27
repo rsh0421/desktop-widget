@@ -1,0 +1,4 @@
+.program-setting{position:absolute;top:-40px;right:0;width:40px;height:40px}
+.program-setting a.program-setting-button{display:block;padding:10px;border-radius:10px}
+.program-setting a.program-setting-button:hover{background-color:#ffffff33;transition:background-color 0.3s ease}
+.program-setting a.program-setting-button span.program-setting-button-img{display:block;width:20px;height:20px;background-image:url(../img/setting.png);background-size:20px 20px;background-repeat:no-repeat;}

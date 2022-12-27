@@ -12,10 +12,6 @@ const Battery = ()=>{
   
   useEffect(()=>{
     const interval = setInterval(()=>{
-      // const {type, capacity} = api.battery.result();
-      // setType(type);
-      // setCapacity(capacity);
-
       api.result('BATTERY').then((result)=>{
         const {info} = result;
         setStatus(info.status);
@@ -27,7 +23,7 @@ const Battery = ()=>{
     return ()=>{
       clearInterval(interval);  
     }
-  })
+  }, [status, charge])
 
   return (
     <Widget title="Battery">
@@ -45,6 +41,8 @@ const BatteryProgress = (props)=>{
   if(props.status === 'charging'){
     gageClassName.push('charge');
   }
+
+  useEffect(()=>{'BatteryProgress update'}, []);
 
   return (
     <div className="battery-progress">

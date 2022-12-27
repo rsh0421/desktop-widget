@@ -4,6 +4,8 @@ import CPU from './widgets/CPU';
 import Memory from './widgets/Memory';
 import Battery from './widgets/Battery';
 import Disk from './widgets/Disk';
+import DirList from './widgets/DirList';
+import Program from './widgets/Program';
 
 const App = ()=>{
   return (
@@ -14,7 +16,10 @@ const App = ()=>{
         <Disk/>
         <Battery/>
       </div>
-      <div className="app-grid-center"></div>
+      <div className="app-grid-center">
+        <DirList/>
+        <Program/>
+      </div>
       <div className="app-grid-right">
       </div>
     </div>

@@ -25,23 +25,18 @@ const Disk = ()=>{
   
   useEffect(()=>{
     const interval = setInterval(()=>{
-      // const {free, total, percentage} = api.memory.result();
-      // setFree(free);
-      // setTotal(total);
-      // setPercentage(percentage);
       api.result('DISK').then((result)=>{
         const {info, disks} = result;
         setName(info.name);
         setTotal(Math.round(info.total * 10 / Math.pow(1024,3))/10);
         setDisks(disks);
-        console.log(result);
       });
     }, 1000);
 
     return ()=>{
       clearInterval(interval);  
     }
-  })
+  }, [name, total, disks]);
 
   return (
     <Widget title="Disk">

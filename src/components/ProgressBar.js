@@ -1,3 +1,4 @@
+import {useEffect} from 'react';
 import './ProgressBar.css'
 
 const ProgressBar = (props)=>{
@@ -5,6 +6,8 @@ const ProgressBar = (props)=>{
 
   let max = 1 || props.max;
   let width = `${(props.value/max) * 100}%`;
+
+  useEffect(()=>{}, []);
 
   return (
     <div className="progress-bar">

@@ -1,0 +1,5 @@
+.popup{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background-color:#00000077;z-index:9999}
+.popup.on{display:flex;align-items:center;justify-content:center}
+.popup .popup-wrap{display:grid;grid-template-rows:40px 1fr;overflow:hidden;;width:1000px;height:500px;border:1px solid #555;border-radius:10px;box-sizing:border-box;background-color:#222}
+.popup .popup-wrap .popup-title{padding:10px;border-radius:10px;font-size:15px;font-weight:bold;color:#fff;line-height:20px;background-color:#333;}
+.popup .popup-wrap .popup-content{height:450px}

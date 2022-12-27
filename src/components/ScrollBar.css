@@ -1,0 +1,12 @@
+.scrollbar{display:grid;overflow:hidden;position:relative;height:100%}
+.scrollbar .scrollbar-component{overflow:hidden;position:relative;width:100%;}
+.scrollbar .scrollbar-component .scrollbar-wrap{overflow:hidden;position:relative}
+.scrollbar .scrollbar-line{visibility:hidden;position:absolute;background-color:#ffffff0f;z-index:99999}
+.scrollbar .scrollbar-line:hover,
+.scrollbar .scrollbar-line.activate{background-color:#ffffff2f}
+.scrollbar .scrollbar-line.ver{top:0;bottom:0;right:0;width:10px}
+.scrollbar .scrollbar-line.hor{bottom:0;left:0;right:0;height:10px}
+.scrollbar .scrollbar-line .scrollbar-button{position:absolute;border-radius:5px;background-color:#ffffff3f}
+.scrollbar .scrollbar-line:hover .scrollbar-button,
+.scrollbar .scrollbar-line.activate .scrollbar-button{background-color:#ffffff7f}
+.scrollbar .scrollbar-line.ver .scrollbar-button{top:0;width:10px;height:60px}

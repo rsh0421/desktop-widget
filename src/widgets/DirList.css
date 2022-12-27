@@ -1,0 +1,22 @@
+.dir-list{text-align:center;}
+.dir-list .dir-list-item{display:inline-block;width:100px;height:100px;margin:0 10px;padding:10px;box-sizing:content-box;}
+.dir-list .dir-list-item:hover{background-color:#ffffff33;transition:background-color 0.3s ease}
+.dir-list .dir-list-item .dir-list-item-icon{display:flex;align-items:center;justify-content:center;position:relative;width:100px;height:60px;margin-top:15px;border-radius:0 5px 5px 5px;background-color:#219669;}
+.dir-list .dir-list-item.Downloads .dir-list-item-icon,
+.dir-list .dir-list-item.Downloads .dir-list-item-icon::before{background-color:#219669;}
+.dir-list .dir-list-item.Documents .dir-list-item-icon,
+.dir-list .dir-list-item.Documents .dir-list-item-icon::before{background-color:#c6b324;}
+.dir-list .dir-list-item.Pictures .dir-list-item-icon,
+.dir-list .dir-list-item.Pictures .dir-list-item-icon::before{background-color:#6d2196;}
+.dir-list .dir-list-item.Videos .dir-list-item-icon,
+.dir-list .dir-list-item.Videos .dir-list-item-icon::before{background-color:#4b3ac7;}
+.dir-list .dir-list-item.Music .dir-list-item-icon,
+.dir-list .dir-list-item.Music .dir-list-item-icon::before{background-color:#c8681e;}
+.dir-list .dir-list-item .dir-list-item-icon::before{content:'';position:absolute;top:-15px;left:0;width:50px;height:15px;border-radius:5px 5px 0 0;background-color:#219669}
+.dir-list .dir-list-item .dir-list-item-icon .dir-list-item-icon-img{display:inline-block;width:64px;height:64px;background-image:url(../img/dirlist-icons-sprite.png);background-size:320px 64px;}
+.dir-list .dir-list-item.Downloads .dir-list-item-icon .dir-list-item-icon-img{background-position:0 0;}
+.dir-list .dir-list-item.Documents .dir-list-item-icon .dir-list-item-icon-img{background-position:-64px 0;}
+.dir-list .dir-list-item.Pictures .dir-list-item-icon .dir-list-item-icon-img{background-position:-128px 0;}
+.dir-list .dir-list-item.Videos .dir-list-item-icon .dir-list-item-icon-img{background-position:-192px 0;}
+.dir-list .dir-list-item.Music .dir-list-item-icon .dir-list-item-icon-img{background-position:-256px 0;}
+.dir-list .dir-list-item .dir-list-item-name{text-align:center;line-height:25px;}

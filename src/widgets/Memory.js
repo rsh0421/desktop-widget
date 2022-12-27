@@ -14,10 +14,6 @@ const Memory = ()=>{
   
   useEffect(()=>{
     const interval = setInterval(()=>{
-      // const {free, total, percentage} = api.memory.result();
-      // setFree(free);
-      // setTotal(total);
-      // setPercentage(percentage);
       api.result('MEMORY').then((result)=>{
         const {info} = result;
         setSpeed(Math.round(info.speed/100)/10);
@@ -25,12 +21,12 @@ const Memory = ()=>{
         setUsage(Math.round((info.total-info.free) * 10 / Math.pow(1024,3))/10);
         setTotal(Math.round(info.total * 10 / Math.pow(1024,3))/10);
       });
-    }, 1000);
+    }, 2000);
 
     return ()=>{
       clearInterval(interval);  
     }
-  })
+  }, [usage, count, total, speed]);
 
   let ratio = usage/total;
 
